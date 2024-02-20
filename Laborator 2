@@ -1,0 +1,79 @@
+class ClasaDeBaza {
+    int x;
+
+//     Constructori
+    ClasaDeBaza() {
+        System.out.println("Constructor implicit al clasei de baza");
+    }
+
+    ClasaDeBaza(int x) {
+        this.x = x;
+        System.out.println("Constructor cu un parametru al clasei de baza");
+    }
+
+    ClasaDeBaza(int x, int y) {
+        this(x);
+        System.out.println("Constructor cu doi parametri al clasei de baza");
+    }
+
+    // Metode
+    void metoda1() {
+        System.out.println("Metoda 1 a clasei de baza");
+    }
+
+    void metoda2() {
+        System.out.println("Metoda 2 a clasei de baza");
+    }
+}
+
+class ClasaDerivata extends ClasaDeBaza {
+    int y;
+
+    // Constructori
+    ClasaDerivata() {
+        super();
+        System.out.println("Constructor implicit al clasei derivate");
+    }
+
+    ClasaDerivata(int x, int y) {
+        super(x, y);
+        this.y = y;
+        System.out.println("Constructor cu doi parametri al clasei derivate");
+    }
+
+    // Metode
+    void metoda3() {
+        System.out.println("Metoda 3 a clasei derivate");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // a) Obiectul clasei de baza folosind constructorul clasei de baza
+        ClasaDeBaza obiect1 = new ClasaDeBaza(5);
+
+        // b) Obiectul clasei derivate folosind constructorul clasei de baza
+        ClasaDerivata obiect2 = new ClasaDerivata(10, 20);
+
+        // c) Obiectul clasei derivate folosind constructorul clasei derivate
+        ClasaDerivata obiect3 = new ClasaDerivata();
+
+        // d) Obiectul clasei de baza folosind constructorul clasei derivate
+        ClasaDeBaza obiect4 = new ClasaDerivata(15, 25);
+
+        // Apeluri de metode
+        obiect1.metoda1();
+        obiect1.metoda2();
+
+        obiect2.metoda1();
+        obiect2.metoda2();
+        obiect2.metoda3();
+
+        obiect3.metoda1();
+        obiect3.metoda2();
+        obiect3.metoda3();
+
+        obiect4.metoda1();
+        obiect4.metoda2();
+    }
+}
