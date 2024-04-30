@@ -1,0 +1,108 @@
+package org.example;
+
+import java.util.Scanner;
+
+class FloatingPointFraction implements FractionInterface {
+    private double numerator;
+    private double denominator;
+    public FloatingPointFraction(double numerator, double denominator) {
+        this.numerator = numerator;
+        this.denominator = denominator;
+    }
+
+    @Override
+    public String toString() {
+        return numerator + "/" + denominator;
+    }
+
+    public double calculate() {
+        return (double) numerator / denominator;
+    }
+
+}
+
+interface FractionInterface {
+    double calculate();
+}
+
+class Fraction implements FractionInterface {
+    private int numerator;
+    private int denominator;
+
+    public Fraction(int numerator, int denominator) {
+        this.numerator = numerator;
+        this.denominator = denominator;
+    }
+
+    @Override
+    public String toString() {
+        return numerator + "/" + denominator;
+    }
+
+    public double calculate() {
+        return (double) numerator / denominator;
+    }
+}
+
+class FractionArray {
+    private FractionInterface[] fractions;
+
+    public FractionArray(FractionInterface[] fractions) {
+        this.fractions = fractions;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (FractionInterface fraction : fractions) {
+            result.append(fraction).append(", ");
+        }
+        return result.toString();
+    }
+
+    public double calculate() {
+        double total = 0;
+        for (FractionInterface fraction : fractions) {
+            total += fraction.calculate();
+        }
+        return total;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Introduceti numaratorul si numitorul pentru fiecare fractie:");
+        Fraction[] fractions = new Fraction[3];
+        for (int i = 0; i < 3; i++) {
+            System.out.print("Fracția " + (i + 1) + " - numărător: ");
+            int numerator = scanner.nextInt();
+            System.out.print("Fracția " + (i + 1) + " - numitor: ");
+            int denominator = scanner.nextInt();
+            fractions[i] = new Fraction(numerator, denominator);
+        }
+
+        FractionArray fractionArray = new FractionArray(fractions);
+
+        System.out.println("Fractiile sunt: " + fractionArray);
+        System.out.println("Suma fractiilor este: " + fractionArray.calculate());
+        FractionInterface fraction = new Fraction(3 , 5);
+        FractionInterface fraction1 = new FloatingPointFraction(4.8 , 5.7);
+        System.out.println("Fractia intreaga: ");
+        if (fraction instanceof Fraction){
+            fraction=(Fraction) fraction;
+            System.out.println(fraction);
+        }
+        System.out.println("Fractia intreaga: ");
+        if (fraction1 instanceof FloatingPointFraction){
+            fraction1=(FloatingPointFraction) fraction1;
+            System.out.println(fraction1);
+        }
+
+
+
+
+        scanner.close();
+    }
+}
