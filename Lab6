@@ -1,0 +1,62 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CircleAnimation extends JFrame {
+    private JPanel panel;
+    private int x = 50; // Coordonata x a cercului
+    private int y = 50; // Coordonata y a cercului
+    private int dx = 2; // Modificarea coordonatei x
+    private int dy = 2; // Modificarea coordonatei y
+    private final int diametru = 50; // Diametrul cercului
+
+    public CircleAnimation() {
+        setTitle("Circle Animation");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.RED);
+                g.fillOval(x, y, diametru, diametru); // Desenează cercul
+            }
+        };
+
+        Timer timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                moveCircle(); // Mișcă cercul la fiecare 10 milisecunde
+                panel.repaint(); // Re-desenează panoul
+            }
+        });
+        timer.start(); // Pornirea timerului
+
+        add(panel);
+    }
+
+    private void moveCircle() {
+        // Mișcare în sus și în jos
+        y += dy;
+        if (y <= 0 || y >= panel.getHeight() - diametru) {
+            dy = -dy; // Inversarea direcției dacă atinge limitele verticale
+        }
+
+        // Mișcare la stânga și la dreapta
+        x += dx;
+        if (x <= 0 || x >= panel.getWidth() - diametru) {
+            dx = -dx; // Inversarea direcției dacă atinge limitele orizontale
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new CircleAnimation().setVisible(true); // Crearea și afișarea ferestrei
+            }
+        });
+    }
+}
