@@ -1,0 +1,99 @@
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class IntSet {
+    private Set<Integer> set;
+
+    public IntSet() {
+        set = new HashSet<>();
+    }
+
+    // Adăugarea unui număr în set
+    public void add(int num) {
+        set.add(num);
+    }
+
+    // Determinarea uniunii cu un alt set
+    public IntSet union(IntSet otherSet) {
+        IntSet unionSet = new IntSet();
+        unionSet.set.addAll(this.set);
+        unionSet.set.addAll(otherSet.set);
+        return unionSet;
+    }
+
+    // Determinarea intersecției cu un alt set
+    public IntSet intersection(IntSet otherSet) {
+        IntSet intersectionSet = new IntSet();
+        for (Integer num : this.set) {
+            if (otherSet.contains(num)) {
+                intersectionSet.add(num);
+            }
+        }
+        return intersectionSet;
+    }
+
+    // Verificarea dacă setul conține un anumit număr
+    public boolean contains(int num) {
+        return set.contains(num);
+    }
+
+    // Afișarea setului
+    public void display() {
+        System.out.println(set);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        IntSet set1 = new IntSet();
+        IntSet set2 = new IntSet();
+
+        System.out.println("Introduceți elementele pentru setul 1 (introduceți 'stop' pentru a termina):");
+        while (true) {
+            String input = scanner.next();
+            if (input.equals("stop")) {
+                break;
+            }
+            int num = Integer.parseInt(input);
+            set1.add(num);
+        }
+
+        System.out.println("Introduceți elementele pentru setul 2 (introduceți 'stop' pentru a termina):");
+        while (true) {
+            String input = scanner.next();
+            if (input.equals("stop")) {
+                break;
+            }
+            int num = Integer.parseInt(input);
+            set2.add(num);
+        }
+
+        System.out.println("Setul 1:");
+        set1.display();
+        System.out.println("Setul 2:");
+        set2.display();
+
+        System.out.println("Alegeti operatia:");
+        System.out.println("1. Uniune");
+        System.out.println("2. Intersectie");
+
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                IntSet unionSet = set1.union(set2);
+                System.out.println("Uniunea seturilor:");
+                unionSet.display();
+                break;
+            case 2:
+                IntSet intersectionSet = set1.intersection(set2);
+                System.out.println("Intersectia seturilor:");
+                intersectionSet.display();
+                break;
+            default:
+                System.out.println("Opțiune invalidă.");
+        }
+
+        scanner.close();
+    }
+}
