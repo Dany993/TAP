@@ -1,0 +1,103 @@
+import java.util.EmptyStackException;
+import java.util.Scanner;
+
+class Inregistrare {
+    private String nume;
+    private int varsta;
+
+    public Inregistrare(String nume, int varsta) {
+        this.nume = nume;
+        this.varsta = varsta;
+    }
+
+    public String getNume() {
+        return nume;
+    }
+
+    public int getVarsta() {
+        return varsta;
+    }
+}
+
+class Stiva {
+    private final int capacitateMaxima;
+    private Inregistrare[] stiva;
+    private int varf;
+
+    public Stiva(int capacitateMaxima) {
+        this.capacitateMaxima = capacitateMaxima;
+        this.stiva = new Inregistrare[capacitateMaxima];
+        this.varf = -1;
+    }
+
+    public boolean isEmpty() {
+        return varf == -1;
+    }
+
+    public boolean isFull() {
+        return varf == capacitateMaxima - 1;
+    }
+
+    public void push(Inregistrare inregistrare) throws StackOverflowError {
+        if (isFull()) {
+            throw new StackOverflowError("Stiva este plină!");
+        }
+        stiva[++varf] = inregistrare;
+    }
+
+    public Inregistrare pop() throws EmptyStackException {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return stiva[varf--];
+    }
+
+    public Inregistrare peek() throws EmptyStackException {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return stiva[varf];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Introduceti capacitatea maxima a stivei: ");
+        int capacitateMaxima = scanner.nextInt();
+        scanner.nextLine(); // Consumăm newline
+
+        Stiva stiva = new Stiva(capacitateMaxima);
+
+        while (true) {
+            System.out.print("Introduceti numele (sau \"stop\" pentru a opri): ");
+            String nume = scanner.nextLine();
+            if (nume.equals("stop")) {
+                break;
+            }
+            System.out.print("Introduceti varsta: ");
+            int varsta = scanner.nextInt();
+            scanner.nextLine(); // Consumăm newline
+
+            Inregistrare inregistrare = new Inregistrare(nume, varsta);
+            try {
+                stiva.push(inregistrare);
+            } catch (StackOverflowError e) {
+                System.out.println(e.getMessage());
+                break;
+            }
+        }
+
+        scanner.close();
+
+        try {
+            System.out.println("Numele primei înregistrări: " + stiva.peek().getNume());
+            System.out.println("Vârsta primei înregistrări: " + stiva.peek().getVarsta());
+
+            System.out.println("Scoatem o înregistrare din stivă: " + stiva.pop().getNume());
+            System.out.println("Numele următoarei înregistrări după extragere: " + stiva.peek().getNume());
+        } catch (EmptyStackException e) {
+            System.out.println("Stiva este goală!");
+        }
+    }
+}
